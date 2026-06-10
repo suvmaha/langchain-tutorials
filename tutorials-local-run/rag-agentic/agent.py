@@ -70,7 +70,7 @@ def make_retriever_tool(vector_store: InMemoryVectorStore):
             query: Plain text search string. Example values: "Task Decomposition",
                    "Chain of Thought", "memory types in agents", "ReAct".
         """
-        docs = vector_store.similarity_search(query, k=2)
+        docs = vector_store.similarity_search(query, k=4)
         serialized = "\n\n".join(
             f"Source: {doc.metadata}\nContent: {doc.page_content}"
             for doc in docs
