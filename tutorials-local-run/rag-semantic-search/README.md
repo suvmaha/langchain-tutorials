@@ -1,4 +1,9 @@
-# Semantic Search
+# RAG — Semantic Search
+
+## References
+
+- https://docs.langchain.com/oss/python/langchain/rag
+- https://docs.langchain.com/oss/python/langchain/retrieval
 
 Build a semantic search engine over a PDF using LangChain components.
 

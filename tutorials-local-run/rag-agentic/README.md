@@ -1,5 +1,10 @@
 # Agentic RAG
 
+## References
+
+- https://docs.langchain.com/oss/python/langchain/rag
+- https://docs.langchain.com/oss/python/langchain/retrieval
+
 RAG where the agent decides whether to retrieve, what to retrieve, and whether to retrieve again. Built with LangGraph for full control over the reasoning loop.
 
 ## What It Covers

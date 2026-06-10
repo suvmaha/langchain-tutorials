@@ -21,7 +21,7 @@ No cluster or cloud needed — just Python and an API key.
 
 | Tutorial | Framework | What It Covers |
 |----------|-----------|---------------|
-| [semantic-search](tutorials-local-run/semantic-search/) | LangChain | Semantic search over PDF |
+| [rag-semantic-search](tutorials-local-run/rag-semantic-search/) | LangChain | Semantic search — embeddings + vector store foundation |
 | [rag-2step](tutorials-local-run/rag-2step/) | LangChain | Retrieve then generate — simple, predictable RAG |
 | [rag-agentic](tutorials-local-run/rag-agentic/) | LangGraph | Agent decides when and what to retrieve |
 | [sql-agent](tutorials-local-run/sql-agent/) | LangChain | SQL agent with human-in-the-loop |

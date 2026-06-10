@@ -1,5 +1,10 @@
 # RAG — 2-Step (Retrieve then Generate)
 
+## References
+
+- https://docs.langchain.com/oss/python/langchain/rag
+- https://docs.langchain.com/oss/python/langchain/retrieval
+
 Simple, predictable RAG pattern. You control retrieval — the LLM never decides whether or when to retrieve. Always retrieves, always generates.
 
 ## What It Covers
