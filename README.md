@@ -22,10 +22,10 @@ No cluster or cloud needed — just Python and an API key.
 | Tutorial | Framework | What It Covers |
 |----------|-----------|---------------|
 | [semantic-search](tutorials-local-run/semantic-search/) | LangChain | Semantic search over PDF |
-| [rag-agent](tutorials-local-run/rag-agent/) | LangChain | Retrieval Augmented Generation agent |
+| [rag-2step](tutorials-local-run/rag-2step/) | LangChain | Retrieve then generate — simple, predictable RAG |
+| [rag-agentic](tutorials-local-run/rag-agentic/) | LangGraph | Agent decides when and what to retrieve |
 | [sql-agent](tutorials-local-run/sql-agent/) | LangChain | SQL agent with human-in-the-loop |
 | [voice-agent](tutorials-local-run/voice-agent/) | LangChain | Speak to and listen to an agent |
-| [custom-rag-agent](tutorials-local-run/custom-rag-agent/) | LangGraph | RAG with LangGraph primitives |
 | [custom-sql-agent](tutorials-local-run/custom-sql-agent/) | LangGraph | SQL agent with full graph control |
 | [personal-assistant](tutorials-local-run/personal-assistant/) | LangGraph | Supervisor delegating to subagents |
 | [customer-support](tutorials-local-run/customer-support/) | LangGraph | Agent state transitions and handoffs |
