@@ -2,6 +2,7 @@
 langchain
 langchain-text-splitters
 langchain-core
+numpy
 
 # Document loading
 beautifulsoup4

@@ -1,6 +1,6 @@
 # Playbook — Agentic RAG
 
-**Estimated time:** ~10 min (model pull ~3 min + install ~2 min + run ~5 min)
+**Estimated time:** ~15 min (clone ~1 min + model pull ~5 min + install ~2 min + run ~5 min)
 
 An agent that retrieves context from a blog post to answer questions. The agent decides when to retrieve, what to query, and can retrieve multiple times per question. Runs locally with Ollama — zero API cost.
 
@@ -9,11 +9,12 @@ An agent that retrieves context from a blog post to answer questions. The agent 
 ## Table of Contents
 
 - [STEP 0 — Clone the Repo](#step-0--clone-the-repo)
-- [STEP 1 — Verify Tools](#step-1--verify-tools)
-- [STEP 2 — Pull Ollama Models](#step-2--pull-ollama-models)
-- [STEP 3 — Install Python Dependencies](#step-3--install-python-dependencies)
-- [STEP 4 — Run the Agent](#step-4--run-the-agent)
-- [STEP 5 — Switch Models](#step-5--switch-models)
+- [STEP 1 — Create Virtual Environment](#step-1--create-virtual-environment)
+- [STEP 2 — Verify Tools](#step-2--verify-tools)
+- [STEP 3 — Pull Ollama Models](#step-3--pull-ollama-models)
+- [STEP 4 — Install Python Dependencies](#step-4--install-python-dependencies)
+- [STEP 5 — Run the Agent](#step-5--run-the-agent)
+- [STEP 6 — Switch Models](#step-6--switch-models)
 
 ---
 
@@ -29,7 +30,21 @@ export REPO_ROOT=$(pwd)
 
 ---
 
-## STEP 1 — Verify Tools
+## STEP 1 — Create Virtual Environment
+
+```bash
+cd $REPO_ROOT/tutorials-local-run/rag-agentic
+
+python3 -m venv .venv
+source .venv/bin/activate
+
+# Verify
+which python   # should point to .venv/bin/python
+```
+
+---
+
+## STEP 2 — Verify Tools
 
 ```bash
 python --version    # 3.11+
@@ -40,7 +55,7 @@ Install Ollama if missing: https://ollama.com/download
 
 ---
 
-## STEP 2 — Pull Ollama Models
+## STEP 3 — Pull Ollama Models
 
 ```bash
 # LLM
@@ -60,17 +75,15 @@ ollama list
 
 ---
 
-## STEP 3 — Install Python Dependencies
+## STEP 4 — Install Python Dependencies
 
 ```bash
-cd $REPO_ROOT/tutorials-local-run/rag-agentic
-
 pip install -r requirements.txt
 ```
 
 ---
 
-## STEP 4 — Run the Agent
+## STEP 5 — Run the Agent
 
 ```bash
 python agent.py
@@ -105,7 +118,7 @@ A: The standard method for Task Decomposition is Chain of Thought (CoT)...
 
 ---
 
-## STEP 5 — Switch Models
+## STEP 6 — Switch Models
 
 **Use Claude (Anthropic):**
 
@@ -179,8 +192,8 @@ Install from https://ollama.com/download and restart your terminal.
 **`model not found` error:**
 Run `ollama pull llama3.2` and `ollama pull nomic-embed-text` first.
 
-**Slow first run:**
-HuggingFace embeddings download the model on first use (~90 MB). Subsequent runs use the cache.
+**`.venv not activated`:**
+Run `source .venv/bin/activate` — your prompt should show `(.venv)`.
 
 **`ImportError: langchain_anthropic`:**
 Run `pip install langchain-anthropic` before switching to `MODEL_PRESET=anthropic`.
