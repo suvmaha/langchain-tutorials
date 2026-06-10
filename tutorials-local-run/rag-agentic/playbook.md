@@ -1,8 +1,8 @@
 # Playbook — Agentic RAG
 
-**Estimated time:** ~15 min (clone ~1 min + model pull ~5 min + install ~2 min + run ~5 min)
+**Estimated time:** ~20 min (clone ~1 min + model pull ~5 min + install ~3 min + run ~10 min)
 
-An agent that retrieves context from a blog post to answer questions. The agent decides when to retrieve, what to query, and can retrieve multiple times per question. Runs locally with Ollama — zero API cost.
+An agent that retrieves context from a blog post to answer questions. The agent decides when to retrieve, what to query, and can retrieve multiple times per question. Runs locally with Ollama — zero API cost. Use the Anthropic preset to see the full multi-retrieval agentic behavior.
 
 ---
 
@@ -13,8 +13,9 @@ An agent that retrieves context from a blog post to answer questions. The agent 
 - [STEP 2 — Verify Tools](#step-2--verify-tools)
 - [STEP 3 — Pull Ollama Models](#step-3--pull-ollama-models)
 - [STEP 4 — Install Python Dependencies](#step-4--install-python-dependencies)
-- [STEP 5 — Run the Agent](#step-5--run-the-agent)
-- [STEP 6 — Switch Models](#step-6--switch-models)
+- [STEP 5 — Run the Agent (Ollama)](#step-5--run-the-agent-ollama)
+- [STEP 6 — Run with Claude (Full Agentic Demo)](#step-6--run-with-claude-full-agentic-demo)
+- [STEP 7 — Switch Models](#step-7--switch-models)
 
 ---
 
@@ -67,10 +68,10 @@ ollama pull nomic-embed-text
 # Verify
 ollama list
 
-# OUTPUT (example)
-# NAME                    ID              SIZE
-# llama3.2:latest         ...             2.0 GB
-# nomic-embed-text:latest ...             274 MB
+# OUTPUT
+# NAME                       ID              SIZE      MODIFIED
+# nomic-embed-text:latest    0a109f422b47    274 MB    ...
+# llama3.2:latest            a80c4f17acd5    2.0 GB    ...
 ```
 
 ---
@@ -83,66 +84,95 @@ pip install -r requirements.txt
 
 ---
 
-## STEP 5 — Run the Agent
+## STEP 5 — Run the Agent (Ollama)
 
 ```bash
 python agent.py
 
 # OUTPUT
-LLM        : ollama/llama3.2
-Embeddings : ollama/nomic-embed-text
-
-Loading document...
-  43,131 characters loaded
-Splitting into chunks...
-  66 chunks
-Embedding and indexing...
-  Done
-
-Q: What is Task Decomposition?
-------------------------------------------------------------
-  [Tool] retrieve_context(query='Task Decomposition')
-A: Task Decomposition is a technique used to break down complex tasks into
-   smaller, more manageable steps...
-
-Q: What is the standard method for Task Decomposition? Once you get the
-   answer, look up common extensions of that method.
-------------------------------------------------------------
-  [Tool] retrieve_context(query='standard method for Task Decomposition')
-  [Tool] retrieve_context(query='common extensions of Chain of Thought')
-A: The standard method for Task Decomposition is Chain of Thought (CoT)...
-   Common extensions include...
+# LLM        : ollama/llama3.2
+# Embeddings : ollama/nomic-embed-text
+#
+# Loading document...
+#   43,047 characters loaded
+# Splitting into chunks...
+#   63 chunks
+# Embedding and indexing...
+#   Done
+#
+# Q: What is Task Decomposition?
+# ------------------------------------------------------------
+#   [Tool] retrieve_context(query='Task Decomposition')
+# A: Task Decomposition is the process of breaking down a complex task or
+#    problem into smaller, more manageable sub-tasks or steps...
+#
+# Q: What is the standard method for Task Decomposition? Once you get the
+#    answer, look up common extensions of that method.
+# ------------------------------------------------------------
+#   [Tool] retrieve_context(query='Task Decomposition methods')
+# A: ...
 ```
 
-> The second question triggers **two retrieval calls** — the agent retrieved once for the standard method, then again for the extensions. That's the agentic behavior: the agent decides to make a second call rather than stopping after the first.
+> With `llama3.2`, Q1 retrieves correctly from the blog. Q2 makes a single tool call — local 3B models don't reliably perform multi-step tool calling. See STEP 6 for the full agentic demo with Claude.
 
 ---
 
-## STEP 6 — Switch Models
-
-**Use Claude (Anthropic):**
+## STEP 6 — Run with Claude (Full Agentic Demo)
 
 ```bash
 pip install langchain-anthropic langchain-huggingface sentence-transformers
 
 export ANTHROPIC_API_KEY=<your-key>
 export MODEL_PRESET=anthropic
+unset LLM_MODEL   # clear any model override from previous runs
 
 python agent.py
 
+# OUTPUT
 # LLM        : anthropic/claude-haiku-4-5-20251001
 # Embeddings : huggingface/all-MiniLM-L6-v2
+#
+# Loading document...
+#   43,047 characters loaded
+# Splitting into chunks...
+#   63 chunks
+# Embedding and indexing...
+#   Done
+#
+# Q: What is Task Decomposition?
+# ------------------------------------------------------------
+#   [Tool] retrieve_context(query='Task Decomposition')
+# A: Based on the blog post about LLM-powered agents, Task Decomposition is
+#    the process of breaking down complex tasks into smaller, more manageable
+#    steps. Task decomposition can be done by LLM with simple prompting,
+#    using task-specific instructions, or with human inputs...
+#
+# Q: What is the standard method for Task Decomposition? Once you get the
+#    answer, look up common extensions of that method.
+# ------------------------------------------------------------
+#   [Tool] retrieve_context(query='Task Decomposition standard method')
+#   [Tool] retrieve_context(query='Chain of Thought extensions improvements')
+#   [Tool] retrieve_context(query='Tree of Thoughts method')
+# A: The standard method for Task Decomposition is Chain of Thought (CoT)
+#    prompting (Wei et al. 2022)...
+#    Common extensions include Tree of Thoughts (ToT), ReAct, and LLM+P...
 ```
+
+> The second question triggers **three retrieval calls** — Claude retrieved once for the standard method (CoT), then twice more for extensions (ToT, ReAct, LLM+P). That's the agentic behavior: the agent decides to keep retrieving until it has enough information.
+
+---
+
+## STEP 7 — Switch Models
 
 **Use a different Ollama model:**
 
 ```bash
-ollama pull mistral
+ollama pull llama3.1
 
-export LLM_MODEL=mistral
+export LLM_MODEL=llama3.1
 python agent.py
 
-# LLM        : ollama/mistral
+# LLM        : ollama/llama3.1
 ```
 
 **Use Claude Sonnet instead of Haiku:**
@@ -176,7 +206,7 @@ The agent loop:
 User question
     ↓
 Agent decides: call retrieve_context(query)?
-    ↓ yes — retrieves top-2 chunks
+    ↓ yes — retrieves top-4 chunks
 Agent reads chunks, decides: enough information?
     ↓ no  — calls retrieve_context again with a different query
     ↓ yes — generates final answer
@@ -196,4 +226,7 @@ Run `ollama pull llama3.2` and `ollama pull nomic-embed-text` first.
 Run `source .venv/bin/activate` — your prompt should show `(.venv)`.
 
 **`ImportError: langchain_anthropic`:**
-Run `pip install langchain-anthropic` before switching to `MODEL_PRESET=anthropic`.
+Run `pip install langchain-anthropic langchain-huggingface sentence-transformers` before switching to `MODEL_PRESET=anthropic`.
+
+**`NotFoundError: model: llama3.1` (or other Ollama model name):**
+You have `LLM_MODEL` set from a previous run. Run `unset LLM_MODEL` before switching presets.
