@@ -15,6 +15,25 @@ Hands-on tutorials for LangChain and LangGraph — agents, evaluations, and CI/C
 
 Start with `evals-cicd-basic` — it explains why LLM evaluation belongs in CI/CD with minimal noise. Then `cicd-pipeline` adds deployment and completes the code-to-production story. Then `offline-evals` for production depth.
 
+## Local-Run Tutorials
+
+No cluster or cloud needed — just Python and an API key.
+
+| Tutorial | Framework | What It Covers |
+|----------|-----------|---------------|
+| [semantic-search](tutorials-local-run/semantic-search/) | LangChain | Semantic search over PDF |
+| [rag-agent](tutorials-local-run/rag-agent/) | LangChain | Retrieval Augmented Generation agent |
+| [sql-agent](tutorials-local-run/sql-agent/) | LangChain | SQL agent with human-in-the-loop |
+| [voice-agent](tutorials-local-run/voice-agent/) | LangChain | Speak to and listen to an agent |
+| [custom-rag-agent](tutorials-local-run/custom-rag-agent/) | LangGraph | RAG with LangGraph primitives |
+| [custom-sql-agent](tutorials-local-run/custom-sql-agent/) | LangGraph | SQL agent with full graph control |
+| [personal-assistant](tutorials-local-run/personal-assistant/) | LangGraph | Supervisor delegating to subagents |
+| [customer-support](tutorials-local-run/customer-support/) | LangGraph | Agent state transitions and handoffs |
+| [knowledge-base-router](tutorials-local-run/knowledge-base-router/) | LangGraph | Query routing to specialized agents |
+| [sql-assistant-skills](tutorials-local-run/sql-assistant-skills/) | LangGraph | Progressive skill loading |
+| [data-analysis](tutorials-local-run/data-analysis/) | Deep Agents | Data analysis with Slack reporting |
+| [deep-research](tutorials-local-run/deep-research/) | Deep Agents | Multi-step research with reflection |
+
 ## Source Material
 
 These tutorials are based on examples from the LangChain samples collection, extended with:
