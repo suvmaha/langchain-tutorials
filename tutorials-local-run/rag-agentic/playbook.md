@@ -8,11 +8,24 @@ An agent that retrieves context from a blog post to answer questions. The agent 
 
 ## Table of Contents
 
+- [STEP 0 — Clone the Repo](#step-0--clone-the-repo)
 - [STEP 1 — Verify Tools](#step-1--verify-tools)
 - [STEP 2 — Pull Ollama Models](#step-2--pull-ollama-models)
 - [STEP 3 — Install Python Dependencies](#step-3--install-python-dependencies)
 - [STEP 4 — Run the Agent](#step-4--run-the-agent)
 - [STEP 5 — Switch Models](#step-5--switch-models)
+
+---
+
+## STEP 0 — Clone the Repo
+
+```bash
+git clone https://github.com/suvmaha/langchain-tutorials.git
+cd langchain-tutorials
+
+# Set REPO_ROOT — all paths in this playbook are relative to here
+export REPO_ROOT=$(pwd)
+```
 
 ---
 
@@ -50,7 +63,7 @@ ollama list
 ## STEP 3 — Install Python Dependencies
 
 ```bash
-cd tutorials-local-run/rag-agentic
+cd $REPO_ROOT/tutorials-local-run/rag-agentic
 
 pip install -r requirements.txt
 ```
