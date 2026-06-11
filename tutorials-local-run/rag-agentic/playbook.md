@@ -88,19 +88,19 @@ python agent.py
 # Q: What is Task Decomposition?
 # ------------------------------------------------------------
 #   [Tool] retrieve_context(query='Task Decomposition')
-# A: Based on the blog post about LLM-powered agents, Task Decomposition is
-#    the process of breaking down complex tasks into smaller, more manageable
-#    steps...
+# A: Task Decomposition is a planning technique used by LLM-powered agents
+#    to break down complicated, multi-step tasks into smaller, simpler,
+#    more manageable subtasks...
+#    Key approaches: Chain of Thought (CoT), Tree of Thoughts (ToT), LLM+P
 #
 # Q: What is the standard method for Task Decomposition? Once you get the
 #    answer, look up common extensions of that method.
 # ------------------------------------------------------------
-#   [Tool] retrieve_context(query='Task Decomposition standard method')
-#   [Tool] retrieve_context(query='Chain of Thought extensions improvements')
-#   [Tool] retrieve_context(query='Tree of Thoughts method')
-# A: The standard method for Task Decomposition is Chain of Thought (CoT)
-#    prompting (Wei et al. 2022)...
-#    Common extensions include Tree of Thoughts (ToT), ReAct, and LLM+P...
+#   [Tool] retrieve_context(query='standard method for task decomposition')
+#   [Tool] retrieve_context(query='Chain of Thought extensions Tree of Thoughts')
+# A: The standard method is Chain of Thought (CoT) (Wei et al. 2022)...
+#    Common extensions: Tree of Thoughts (ToT) adds branching + search;
+#    LLM+P combines LLM reasoning with classical planning tools (PDDL)...
 ```
 
 > The second question triggers **three retrieval calls** — Claude retrieved once for the standard method (CoT), then twice more for extensions (ToT, ReAct, LLM+P). That's the agentic behavior: the agent decides to keep retrieving until it has enough information.
@@ -108,6 +108,8 @@ python agent.py
 ---
 
 ## STEP 6 — Run with Ollama (Zero API Cost)
+
+> This is an alternative to STEP 5 — skip it if you're using Claude. Ollama runs entirely locally with no API key and no cost, but smaller models (llama3.2, 3B) do not reliably perform multi-step tool calling. Use this path to explore the zero-cost option, not for the full agentic demo.
 
 No API key needed. Requires Ollama installed and models pulled.
 
