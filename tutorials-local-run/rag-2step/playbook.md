@@ -179,6 +179,24 @@ Answer
 
 ---
 
+## Cleanup
+
+```bash
+# Deactivate the virtual environment
+deactivate
+
+# Remove the venv to free disk space (~1 GB)
+rm -rf .venv
+
+# Unset any env vars if you changed the model
+unset MODEL_PRESET
+unset LLM_MODEL
+unset EMBEDDINGS_MODEL
+unset ANTHROPIC_API_KEY
+```
+
+---
+
 ## Common Issues
 
 **`.venv not activated`:**

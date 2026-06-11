@@ -177,6 +177,22 @@ Return top-4 by score
 
 ---
 
+## Cleanup
+
+```bash
+# Deactivate the virtual environment
+deactivate
+
+# Remove the venv to free disk space (~500 MB)
+rm -rf .venv
+
+# Unset any env vars if you changed the preset
+unset EMBEDDINGS_PRESET
+unset EMBEDDINGS_MODEL
+```
+
+---
+
 ## Common Issues
 
 **`.venv not activated`:**
