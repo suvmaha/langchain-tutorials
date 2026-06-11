@@ -1,0 +1,18 @@
+# Core
+langchain
+langchain-text-splitters
+langchain-core
+numpy
+
+# Document loading
+beautifulsoup4
+requests
+
+# Default preset: anthropic (Claude Opus)
+langchain-anthropic
+langchain-huggingface
+sentence-transformers
+
+# Optional — install if switching MODEL_PRESET
+# langchain-ollama    # for MODEL_PRESET=ollama or ollama-full
+# langchain-openai    # for MODEL_PRESET=openai
