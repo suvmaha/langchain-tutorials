@@ -15,7 +15,7 @@ PRESETS = {
     },
     "anthropic": {
         "llm_provider": "anthropic",
-        "llm_model": os.getenv("LLM_MODEL", "claude-haiku-4-5-20251001"),
+        "llm_model": os.getenv("LLM_MODEL", "claude-opus-4-7"),
         "embeddings_provider": "huggingface",
         "embeddings_model": os.getenv("EMBEDDINGS_MODEL", "all-MiniLM-L6-v2"),
     },
@@ -29,7 +29,7 @@ PRESETS = {
 
 
 def get_model_config() -> dict:
-    preset = os.getenv("MODEL_PRESET", "ollama-full")
+    preset = os.getenv("MODEL_PRESET", "anthropic")
     if preset not in PRESETS:
         raise ValueError(
             f"Unknown MODEL_PRESET '{preset}'. Choose from: {list(PRESETS.keys())}"

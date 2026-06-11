@@ -1,8 +1,8 @@
 # Playbook — Agentic RAG
 
-**Estimated time:** ~20 min (clone ~1 min + model pull ~5 min + install ~3 min + run ~10 min)
+**Estimated time:** ~15 min (clone ~1 min + install ~3 min + run ~5 min)
 
-An agent that retrieves context from a blog post to answer questions. The agent decides when to retrieve, what to query, and can retrieve multiple times per question. Runs locally with Ollama — zero API cost. Use the Anthropic preset to see the full multi-retrieval agentic behavior.
+An agent that retrieves context from a blog post to answer questions. The agent decides when to retrieve, what to query, and retrieves multiple times per question when needed. Default: Claude Opus via Anthropic API. Zero-cost alternative: Ollama (see STEP 6).
 
 ---
 
@@ -11,10 +11,10 @@ An agent that retrieves context from a blog post to answer questions. The agent 
 - [STEP 0 — Clone the Repo](#step-0--clone-the-repo)
 - [STEP 1 — Create Virtual Environment](#step-1--create-virtual-environment)
 - [STEP 2 — Verify Tools](#step-2--verify-tools)
-- [STEP 3 — Pull Ollama Models](#step-3--pull-ollama-models)
+- [STEP 3 — Set API Key](#step-3--set-api-key)
 - [STEP 4 — Install Python Dependencies](#step-4--install-python-dependencies)
-- [STEP 5 — Run the Agent (Ollama)](#step-5--run-the-agent-ollama)
-- [STEP 6 — Run with Claude (Full Agentic Demo)](#step-6--run-with-claude-full-agentic-demo)
+- [STEP 5 — Run the Agent](#step-5--run-the-agent)
+- [STEP 6 — Run with Ollama (Zero API Cost)](#step-6--run-with-ollama-zero-api-cost)
 - [STEP 7 — Switch Models](#step-7--switch-models)
 
 ---
@@ -49,29 +49,14 @@ which python   # should point to .venv/bin/python
 
 ```bash
 python --version    # 3.11+
-ollama --version    # any recent version
 ```
-
-Install Ollama if missing: https://ollama.com/download
 
 ---
 
-## STEP 3 — Pull Ollama Models
+## STEP 3 — Set API Key
 
 ```bash
-# LLM
-ollama pull llama3.2
-
-# Embeddings
-ollama pull nomic-embed-text
-
-# Verify
-ollama list
-
-# OUTPUT
-# NAME                       ID              SIZE      MODIFIED
-# nomic-embed-text:latest    0a109f422b47    274 MB    ...
-# llama3.2:latest            a80c4f17acd5    2.0 GB    ...
+export ANTHROPIC_API_KEY=<your-key>
 ```
 
 ---
@@ -84,52 +69,13 @@ pip install -r requirements.txt
 
 ---
 
-## STEP 5 — Run the Agent (Ollama)
+## STEP 5 — Run the Agent
 
 ```bash
 python agent.py
 
 # OUTPUT
-# LLM        : ollama/llama3.2
-# Embeddings : ollama/nomic-embed-text
-#
-# Loading document...
-#   43,047 characters loaded
-# Splitting into chunks...
-#   63 chunks
-# Embedding and indexing...
-#   Done
-#
-# Q: What is Task Decomposition?
-# ------------------------------------------------------------
-#   [Tool] retrieve_context(query='Task Decomposition')
-# A: Task Decomposition is the process of breaking down a complex task or
-#    problem into smaller, more manageable sub-tasks or steps...
-#
-# Q: What is the standard method for Task Decomposition? Once you get the
-#    answer, look up common extensions of that method.
-# ------------------------------------------------------------
-#   [Tool] retrieve_context(query='Task Decomposition methods')
-# A: ...
-```
-
-> With `llama3.2`, Q1 retrieves correctly from the blog. Q2 makes a single tool call — local 3B models don't reliably perform multi-step tool calling. See STEP 6 for the full agentic demo with Claude.
-
----
-
-## STEP 6 — Run with Claude (Full Agentic Demo)
-
-```bash
-pip install langchain-anthropic langchain-huggingface sentence-transformers
-
-export ANTHROPIC_API_KEY=<your-key>
-export MODEL_PRESET=anthropic
-unset LLM_MODEL   # clear any model override from previous runs
-
-python agent.py
-
-# OUTPUT
-# LLM        : anthropic/claude-haiku-4-5-20251001
+# LLM        : anthropic/claude-opus-4-7
 # Embeddings : huggingface/all-MiniLM-L6-v2
 #
 # Loading document...
@@ -144,8 +90,7 @@ python agent.py
 #   [Tool] retrieve_context(query='Task Decomposition')
 # A: Based on the blog post about LLM-powered agents, Task Decomposition is
 #    the process of breaking down complex tasks into smaller, more manageable
-#    steps. Task decomposition can be done by LLM with simple prompting,
-#    using task-specific instructions, or with human inputs...
+#    steps...
 #
 # Q: What is the standard method for Task Decomposition? Once you get the
 #    answer, look up common extensions of that method.
@@ -162,20 +107,34 @@ python agent.py
 
 ---
 
-## STEP 7 — Switch Models
+## STEP 6 — Run with Ollama (Zero API Cost)
 
-**Use a different Ollama model:**
+No API key needed. Requires Ollama installed and models pulled.
 
 ```bash
-ollama pull llama3.1
+# Pull models (one-time, ~2.3 GB total)
+ollama pull llama3.2
+ollama pull nomic-embed-text
 
-export LLM_MODEL=llama3.1
+# Install Ollama dep
+pip install langchain-ollama
+
+export MODEL_PRESET=ollama-full
 python agent.py
 
-# LLM        : ollama/llama3.1
+# LLM        : ollama/llama3.2
+# Embeddings : ollama/nomic-embed-text
 ```
 
-**Use Claude Sonnet instead of Haiku:**
+> Note: `llama3.2` (3B) handles single-step retrieval correctly but does not reliably perform multi-step tool calling. Q1 will retrieve from the blog; Q2 will make one call and may not identify CoT as the standard method.
+
+Install Ollama if missing: https://ollama.com/download
+
+---
+
+## STEP 7 — Switch Models
+
+**Use a different Anthropic model:**
 
 ```bash
 export MODEL_PRESET=anthropic
@@ -185,6 +144,19 @@ python agent.py
 
 # LLM        : anthropic/claude-sonnet-4-6
 ```
+
+**Use a different Ollama model:**
+
+```bash
+export MODEL_PRESET=ollama-full
+export LLM_MODEL=llama3.1
+
+python agent.py
+
+# LLM        : ollama/llama3.1
+```
+
+> Always run `unset LLM_MODEL` before switching presets, otherwise the model name from one provider will be sent to the other.
 
 ---
 
@@ -219,14 +191,14 @@ Agent reads chunks, decides: enough information?
 **`ollama: command not found`:**
 Install from https://ollama.com/download and restart your terminal.
 
-**`model not found` error:**
+**`model not found` error (Ollama):**
 Run `ollama pull llama3.2` and `ollama pull nomic-embed-text` first.
 
 **`.venv not activated`:**
 Run `source .venv/bin/activate` — your prompt should show `(.venv)`.
 
 **`ImportError: langchain_anthropic`:**
-Run `pip install langchain-anthropic langchain-huggingface sentence-transformers` before switching to `MODEL_PRESET=anthropic`.
+Run `pip install -r requirements.txt` with the venv activated.
 
-**`NotFoundError: model: llama3.1` (or other Ollama model name):**
+**`NotFoundError: model: llama3.1` (or other Ollama model name on Anthropic):**
 You have `LLM_MODEL` set from a previous run. Run `unset LLM_MODEL` before switching presets.
