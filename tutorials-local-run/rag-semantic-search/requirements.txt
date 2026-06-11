@@ -1,0 +1,17 @@
+# Core
+langchain
+langchain-text-splitters
+langchain-core
+numpy
+
+# Document loading
+beautifulsoup4
+requests
+
+# Default preset: huggingface (no API key needed)
+langchain-huggingface
+sentence-transformers
+
+# Optional — install if switching EMBEDDINGS_PRESET
+# langchain-ollama    # for EMBEDDINGS_PRESET=ollama
+# langchain-openai    # for EMBEDDINGS_PRESET=openai
