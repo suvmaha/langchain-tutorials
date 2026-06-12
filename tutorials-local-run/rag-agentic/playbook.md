@@ -6,6 +6,14 @@ An agent that retrieves context from a blog post to answer questions. The agent 
 
 ---
 
+## Run Log
+
+| Date | Model | Result |
+|------|-------|--------|
+| 2026-06-11 | anthropic/claude-opus-4-7 | ✅ Certified — ran end-to-end successfully |
+
+---
+
 ## Table of Contents
 
 - [STEP 0 — Clone the Repo](#step-0--clone-the-repo)
